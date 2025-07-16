@@ -54,11 +54,11 @@ a {
 
 @media (max-width: 600px), (max-height: 600px) {
   .superrustico-video {
-    width: 120vw;
+    width: 160vw;
     height: 100vh;
     max-width: none;
     max-height: calc(100vh - 20px);
-    margin-left: -10vw;
-    margin-right: -10vw;
+    margin-left: -30vw;
+    margin-right: -30vw;
   }
 }
