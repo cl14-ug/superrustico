@@ -1,6 +1,18 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export default function Home() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible' && videoRef.current) {
+        videoRef.current.play().catch(() => {});
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, []);
+
   return (
     <div
       style={{
@@ -13,6 +25,7 @@ export default function Home() {
       }}
     >
       <video
+        ref={videoRef}
         src="/superrustico.MP4"
         autoPlay
         loop
