@@ -19,8 +19,8 @@ export default function Home() {
         muted
         playsInline
         style={{
-          maxWidth: '100vw',
-          maxHeight: '100vh',
+          width: '50vw',
+          height: '50vh',
           objectFit: 'contain',
           background: 'black',
           display: 'block',
