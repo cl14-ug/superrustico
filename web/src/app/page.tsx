@@ -18,13 +18,7 @@ export default function Home() {
         loop
         muted
         playsInline
-        style={{
-          width: '50vw',
-          height: '50vh',
-          objectFit: 'contain',
-          background: 'black',
-          display: 'block',
-        }}
+        className="superrustico-video"
       />
     </div>
   );
