@@ -1,0 +1,34 @@
+---
+description: 
+globs: supabase/**
+alwaysApply: false
+---
+- Database: PostgreSQL managed by Supabase.
+- Schema Management: Define and manage database schema using SQL migration files. Store in `supabase/migrations/`. Rationale: Version-controlled, auditable.
+    - Generate new migrations using Supabase CLI: `supabase migration new <migration_name>`.
+    - Naming: Tables and columns use `snake_case`. Rationale: SQL convention.
+    - Primary Keys: Prefer UUIDs for primary keys (`id uuid DEFAULT gen_random_uuid() PRIMARY KEY`). Rationale: Globally unique, better for distributed systems.
+    - Foreign Keys: Define explicit foreign key constraints with `ON DELETE` cascade/restrict rules.
+    - Indexes: Create indexes on frequently queried columns, especially foreign keys and columns used in `WHERE` clauses. Rationale: Query performance.
+- Authentication: Use Supabase Auth.
+    - Configure required providers (Email/Password, OAuth) in Supabase Dashboard.
+    - Securely handle JWTs on client-side; Supabase JS client manages this.
+- Authorization (Row Level Security - RLS):
+    - Enable RLS on all tables containing sensitive or user-specific data. Rationale: Default-deny security.
+    - Write policies that use `auth.uid()` to restrict access to user's own data. Example: `CREATE POLICY "Users can access own data" ON profiles FOR SELECT USING (auth.uid() = user_id);`
+    - Define policies for `SELECT`, `INSERT`, `UPDATE`, `DELETE` as needed.
+    - Test RLS policies thoroughly.
+- Edge Functions: Write serverless functions in TypeScript within `supabase/functions/`. Rationale: Custom backend logic, type safety. See @folder:supabase/functions/examples
+    - Functions should be small and focused on a single task.
+    - Use Deno runtime (Supabase default). Be mindful of Node.js compatibility if porting.
+    - Handle request/response cycle explicitly (e.g., using `serve` from Deno's standard library).
+    - Secure functions by validating Supabase JWT from `Authorization` header.
+    - Access database within functions using Supabase JS client (server-side variant).
+- Storage: Utilize Supabase Storage for user file uploads (images, documents).
+    - Define appropriate RLS policies for storage buckets and objects. Rationale: Secure file access.
+- Realtime: Use Supabase Realtime for features like live updates or chat, if applicable.
+    - Ensure RLS policies correctly filter realtime messages.
+- Supabase Client (JS):
+    - Initialize client once with Supabase URL and anon key. See @file:src/lib/supabaseClient.ts (example path)
+    - Generate TypeScript types from your database schema using Supabase CLI (`supabase gen types typescript`) and use them in your frontend/functions. Rationale: Type safety for DB interactions.
+- Database Functions (RPC): For complex SQL logic reusable across clients/functions, create PostgreSQL functions and call them via RPC.

@@ -1,0 +1,33 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- Use TypeScript with `strict: true` in `tsconfig.json`. Rationale: Maximizes type safety, improves AI assistance. See @file:tsconfig.json
+- Adhere to project ESLint & Prettier configurations. Rationale: Enforces consistent code style, reduces merge conflicts.
+- Naming Conventions:
+    - `PascalCase` for React components, TypeScript types/interfaces, enums. Rationale: Standard React/TS convention.
+    - `camelCase` for functions, variables, React hooks. Rationale: Standard JavaScript/TS convention.
+    - `snake_case` for PostgreSQL tables, columns (Supabase). Rationale: Common SQL convention.
+    - `UPPER_SNAKE_CASE` for constants. Rationale: Standard JS/TS convention.
+- Environment Variables:
+    - Access via `process.env.VARIABLE_NAME`.
+    - Define development variables in `.env.local` (Next.js) or `.env` (Expo with `react-native-dotenv`).
+    - Never commit `.env` files containing secrets. Use `.env.example` for templates. Rationale: Security.
+- Error Handling: Implement comprehensive error handling for API calls, user inputs, and critical operations.
+- Logging: Use `console.log/warn/error` judiciously for development; consider structured logging for production.
+- Comments: Write JSDoc comments for all exported functions, complex logic, and type definitions. Rationale: Improves code understanding for humans and AI.
+- Shared Code: Place reusable types, utilities, or constants in a `common/` or `shared/` directory if applicable. Rationale: DRY principle.
+- Testing: Write Jest unit/integration tests for core business logic, UI components, and utility functions. Aim for >70% coverage. Rationale: Ensures reliability.
+- API Design: For internal APIs (Next.js API routes, Supabase Functions), ensure clear request/response schemas.
+- Security:
+    - Sanitize all user inputs to prevent XSS.
+    - Validate data on client and server side.
+    - Implement proper authorization checks for all backend operations.
+- Version Control: Use Conventional Commits standard for Git messages. Rationale: Automated changelogs, clearer history.
+- Dependencies: Favor well-maintained, popular libraries. Update dependencies regularly after checking for breaking changes.
+- Documentation: Maintain a `README.md` in each major project directory (`web/`, `mobile/`, `supabase/`) detailing setup and key architectural choices.
+- AI Interaction:
+    - Provide sufficient context (open files, paste snippets) for AI assistance.
+    - Clearly state the framework/library context (e.g., "Using Next.js 14", "for Shadcn/ui with Tailwind CSS").
+    - Review and test all AI-generated code thoroughly.

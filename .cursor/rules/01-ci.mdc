@@ -1,0 +1,32 @@
+---
+description: 
+globs: .github/workflows/**
+alwaysApply: false
+---
+- Platform: Use GitHub Actions for CI/CD automation. Workflows are defined in YAML files under `.github/workflows/`.
+- Triggers: Configure workflows to run on `push` to `main`, `pull_request` to `main`, or specific tags (e.g., `v*` for releases).
+- Common Jobs:
+    - Linting: Run ESLint on TypeScript/JavaScript code. `npm run lint`.
+    - Testing: Run Jest tests. `npm run test` or `npm test`.
+    - Building:
+        - Web (Next.js): `npm run build` within the `web/` directory. Vercel handles actual deployment.
+        - Mobile (Expo): Optionally trigger EAS Build: `eas build -p <platform> --profile <profile_name> --non-interactive`.
+- Web Deployment (Vercel):
+    - Primarily handled by Vercel's GitHub integration. Pushes/merges to `main` trigger automatic builds and deployments on Vercel.
+    - GitHub Actions can be used for pre-deployment checks (lint, test) before Vercel deployment.
+    - Manage Vercel environment variables (e.g., `SUPABASE_URL`, `SUPABASE_ANON_KEY`) in Vercel project settings.
+- Mobile Deployment (Expo EAS):
+    - Use Expo Application Services (EAS) CLI for builds and submissions.
+    - EAS Build: `eas build -p [ios|android] --profile [preview|production]`.
+    - EAS Submit: `eas submit -p [ios|android] --latest`.
+    - Store EAS credentials/tokens as GitHub Secrets and use them in workflows.
+    - Consider separate workflows for development builds (e.g., on PR) and production builds (e.g., on tag).
+- Secrets Management: Store all sensitive keys, tokens (Supabase service role key, EAS tokens, etc.) as GitHub Encrypted Secrets. Never hardcode them.
+- Caching: Utilize `actions/cache` to cache dependencies (`node_modules`) for faster workflow runs.
+- Node.js Version: Use `actions/setup-node` to specify the Node.js version consistent with project requirements (e.g., LTS).
+- Job Matrix: Use matrix strategy for testing across different Node.js versions or OS if necessary (less common for this stack).
+- Workflow Naming: Use clear, descriptive names for workflows and jobs.
+- Error Reporting: Ensure workflows clearly report failures.
+- Conditional Execution: Use `if` conditionals in job steps for flow control (e.g., only deploy on `main` branch).
+- Artifacts: Use `actions/upload-artifact` and `actions/download-artifact` for passing data between jobs if needed (e.g., test reports).
+- Keep workflows lean and fast. Optimize build times where possible.

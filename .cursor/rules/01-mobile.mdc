@@ -1,0 +1,35 @@
+---
+description: 
+globs: mobile/**
+alwaysApply: false
+---
+- Framework: Use React Native with Expo (Managed Workflow). Rationale: Stack choice, simplified development and builds. See @file:mobile/app.json
+- Language: TypeScript (`.ts`, `.tsx`).
+- UI Components: Implement UI using React Native Paper. Rationale: Material Design consistency with web, platform-aware components. See @folder:mobile/src/components/paper-examples
+    - Utilize React Native Paper's Theming. See @file:mobile/src/theme.ts
+- Navigation: Use React Navigation for screen transitions and navigation structure. Rationale: Community standard, feature-rich. See @folder:mobile/src/navigation
+- State Management:
+    - Default to React Context API for simple-to-moderate local/shared state.
+    - Use Zustand for more complex global state needs.
+    - Consider Redux Toolkit only for very complex global state. Rationale: Consistent with web, balance simplicity/power.
+- Data Fetching:
+    - Use `fetch` API or `axios` for API calls.
+    - For Supabase interactions, use `@supabase/supabase-js` client, abstracted into hooks/services. See @file:mobile/src/lib/supabaseClient.ts
+- Forms: Use libraries like React Hook Form with Zod for validation. Rationale: Performance, ease of use.
+- Styling: Use `StyleSheet.create` for styling. Leverage React Native Paper component props for Material styles.
+- Native Modules: Prefer Expo SDK APIs for device features (camera, location, etc.). Rationale: Maintained by Expo, works in managed workflow.
+    - If custom native code is essential, consider ejecting or using EAS Build with custom native code.
+- Environment Variables: Use `react-native-dotenv`. Store keys in `.env` file (not committed). See @file:mobile/.env.example
+- Testing: Write Jest and React Native Testing Library tests for components and logic. Rationale: Ensures reliability. See @folder:mobile/src/__tests__
+- Build/Deployment:
+    - Use Expo Application Services (EAS) Build for creating development and production builds.
+    - Use EAS Submit for submitting to app stores.
+    - Leverage Over-The-Air (OTA) updates for JS/asset changes. See `eas update`.
+- Performance:
+    - Use `FlatList` or `SectionList` for long lists.
+    - Optimize re-renders with `React.memo`, `useCallback`, `useMemo`.
+    - Avoid heavy computations on the JS thread.
+- Platform Specifics: Use `Platform.OS` or platform-specific file extensions (e.g., `*.ios.tsx`, `*.android.tsx`) when necessary.
+- App Configuration: Manage app metadata (name, icon, splash screen, permissions) in `app.json`.
+- Deep Linking: Configure deep linking using Expo's utilities and React Navigation.
+- Push Notifications: Use `expo-notifications` for push notification handling.

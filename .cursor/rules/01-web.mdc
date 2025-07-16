@@ -1,0 +1,30 @@
+---
+description: 
+globs: web/**
+alwaysApply: false
+---
+- Framework: Use Next.js (currently v14+ features like App Router if adopted, else Pages Router as per docs). Rationale: Stack choice, serverless-friendly.
+- Language: TypeScript (`.ts`, `.tsx`).
+- UI Components: Implement UI using Shadcn/ui components with Tailwind CSS v4.1.8. Rationale: Modern, customizable, accessible components with utility-first styling. See @folder:web/src/components/ui
+    - Use Tailwind CSS utility classes for styling. Leverage Shadcn/ui's customizable component system for consistent design.
+- Routing: Utilize Next.js file-based routing (e.g., `web/src/app/` for App Router, or `web/pages/` for Pages Router). Rationale: Framework standard.
+- API Routes: Create backend endpoints as Next.js API Routes (e.g., in `web/src/app/api/` or `web/pages/api/`). Rationale: Serverless functions integrated with web frontend.
+    - Secure API routes appropriately (e.g., validate Supabase JWT).
+- State Management:
+    - Default to React Context API for simple-to-moderate local/shared state.
+    - Use Zustand for more complex global state needs, favoring simplicity.
+    - Consider Redux Toolkit only if state logic becomes highly complex and benefits from its structured approach. Rationale: Balance simplicity and power.
+- Data Fetching:
+    - Use `fetch` API or a lightweight library like `axios` for client-side requests to Next.js API routes or external services.
+    - Leverage Next.js data fetching methods (e.g., Server Components, Route Handlers for App Router; `getServerSideProps`, `getStaticProps` for Pages Router).
+    - For Supabase interactions, use the `@supabase/supabase-js` client, preferably abstracted into custom hooks or service functions. See @file:web/src/lib/supabaseClient.ts
+- Forms: Use libraries like React Hook Form with Zod for validation. Rationale: Performance, ease of use, strong validation.
+- Styling:
+    - Global styles and Tailwind CSS configuration in `web/src/app/globals.css` or `web/src/styles/globals.css`.
+    - Shadcn/ui Theming: Customize component themes using CSS variables and Tailwind configuration. See @file:web/tailwind.config.js
+- Environment Variables: Prefix with `NEXT_PUBLIC_` for browser exposure; others are server-side only. See @file:web/.env.local.example
+- Testing: Write Jest and React Testing Library tests for components and hooks. Rationale: Ensures UI reliability. See @folder:web/src/__tests__
+- Build/Deployment: Deployment managed by Vercel. Ensure Vercel project settings are aligned (Node.js version, env vars).
+- Images: Use Next.js Image component (`next/image`) for optimized image handling. Rationale: Performance benefits.
+- SEO: Implement SEO best practices (meta tags, structured data) using Next.js features.
+- Accessibility: Ensure components are accessible (ARIA attributes, keyboard navigation). Use tools like Axe for checks.
