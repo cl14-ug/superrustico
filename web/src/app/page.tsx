@@ -5,6 +5,7 @@ export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [activeLanguage, setActiveLanguage] = useState<'DE' | 'ITA'>('DE');
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   useEffect(() => {
     const handleVisibility = () => {
@@ -12,7 +13,7 @@ export default function Home() {
         if (videoRef.current) {
           videoRef.current.play().catch(() => {});
         }
-        if (audioRef.current) {
+        if (audioRef.current && hasUserInteracted) {
           audioRef.current.play().catch(() => {});
         }
       } else {
@@ -26,14 +27,22 @@ export default function Home() {
     };
     document.addEventListener('visibilitychange', handleVisibility);
     return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, []);
+  }, [hasUserInteracted]);
 
   const handleLanguageChange = (language: 'DE' | 'ITA') => {
     setActiveLanguage(language);
+    setHasUserInteracted(true);
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.src = language === 'DE' ? '/traeume.mp3' : '/libiamo.mp3';
       audioRef.current.load();
+      audioRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleUserInteraction = () => {
+    setHasUserInteracted(true);
+    if (audioRef.current) {
       audioRef.current.play().catch(() => {});
     }
   };
@@ -48,9 +57,23 @@ export default function Home() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative',
       }}
+      onClick={handleUserInteraction}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div 
+        style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+        }}
+      >
         <video
           ref={videoRef}
           src="/superrustico.MP4"
@@ -61,7 +84,11 @@ export default function Home() {
           className="superrustico-video"
         />
         
-        <div style={{ marginTop: '20px' }}>
+        <div style={{ 
+          marginTop: '20px',
+          position: 'relative',
+          zIndex: 10,
+        }}>
           <span
             style={{
               color: 'white',
@@ -125,7 +152,6 @@ export default function Home() {
       <audio
         ref={audioRef}
         src="/traeume.mp3"
-        autoPlay
         loop
         preload="auto"
       />

@@ -61,4 +61,11 @@ a {
     margin-left: -50vw;
     margin-right: -50vw;
   }
+  
+  /* Ensure language selector stays positioned correctly on mobile */
+  .superrustico-video + div {
+    position: relative !important;
+    z-index: 10 !important;
+    margin-top: 20px !important;
+  }
 }
