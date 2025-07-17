@@ -5,7 +5,30 @@ export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [activeLanguage, setActiveLanguage] = useState<'DE' | 'ITA'>('DE');
+  const [isMobile, setIsMobile] = useState(false);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+      const isSmallScreen = window.innerWidth <= 768;
+      setIsMobile(isMobileDevice || isSmallScreen);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Handle autoplay based on device type
+  useEffect(() => {
+    if (!isMobile && audioRef.current) {
+      // Desktop: autoplay immediately
+      audioRef.current.play().catch(() => {});
+    }
+  }, [isMobile]);
 
   useEffect(() => {
     const handleVisibility = () => {
@@ -13,7 +36,7 @@ export default function Home() {
         if (videoRef.current) {
           videoRef.current.play().catch(() => {});
         }
-        if (audioRef.current && hasUserInteracted) {
+        if (audioRef.current && (!isMobile || hasUserInteracted)) {
           audioRef.current.play().catch(() => {});
         }
       } else {
@@ -27,7 +50,7 @@ export default function Home() {
     };
     document.addEventListener('visibilitychange', handleVisibility);
     return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, [hasUserInteracted]);
+  }, [isMobile, hasUserInteracted]);
 
   const handleLanguageChange = (language: 'DE' | 'ITA') => {
     setActiveLanguage(language);
@@ -41,9 +64,11 @@ export default function Home() {
   };
 
   const handleUserInteraction = () => {
-    setHasUserInteracted(true);
-    if (audioRef.current) {
-      audioRef.current.play().catch(() => {});
+    if (isMobile && !hasUserInteracted) {
+      setHasUserInteracted(true);
+      if (audioRef.current) {
+        audioRef.current.play().catch(() => {});
+      }
     }
   };
 
@@ -57,7 +82,6 @@ export default function Home() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'relative',
       }}
       onClick={handleUserInteraction}
     >
@@ -68,11 +92,8 @@ export default function Home() {
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
-          height: '100%',
-          position: 'absolute',
-          top: 0,
-          left: 0,
         }}
+        className="video-container"
       >
         <video
           ref={videoRef}
@@ -84,11 +105,14 @@ export default function Home() {
           className="superrustico-video"
         />
         
-        <div style={{ 
-          marginTop: '20px',
-          position: 'relative',
-          zIndex: 10,
-        }}>
+        <div 
+          style={{ 
+            marginTop: '20px',
+            position: 'relative',
+            zIndex: 10,
+          }}
+          className="language-selector"
+        >
           <span
             style={{
               color: 'white',
