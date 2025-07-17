@@ -5,30 +5,6 @@ export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [activeLanguage, setActiveLanguage] = useState<'DE' | 'ITA'>('DE');
-  const [isMobile, setIsMobile] = useState(false);
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
-
-  // Detect mobile device
-  useEffect(() => {
-    const checkMobile = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-      const isSmallScreen = window.innerWidth <= 768;
-      setIsMobile(isMobileDevice || isSmallScreen);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Handle autoplay based on device type
-  useEffect(() => {
-    if (!isMobile && audioRef.current) {
-      // Desktop: autoplay immediately
-      audioRef.current.play().catch(() => {});
-    }
-  }, [isMobile]);
 
   useEffect(() => {
     const handleVisibility = () => {
@@ -36,7 +12,7 @@ export default function Home() {
         if (videoRef.current) {
           videoRef.current.play().catch(() => {});
         }
-        if (audioRef.current && (!isMobile || hasUserInteracted)) {
+        if (audioRef.current) {
           audioRef.current.play().catch(() => {});
         }
       } else {
@@ -50,25 +26,15 @@ export default function Home() {
     };
     document.addEventListener('visibilitychange', handleVisibility);
     return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, [isMobile, hasUserInteracted]);
+  }, []);
 
   const handleLanguageChange = (language: 'DE' | 'ITA') => {
     setActiveLanguage(language);
-    setHasUserInteracted(true);
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.src = language === 'DE' ? '/traeume.mp3' : '/libiamo.mp3';
       audioRef.current.load();
       audioRef.current.play().catch(() => {});
-    }
-  };
-
-  const handleUserInteraction = () => {
-    if (isMobile && !hasUserInteracted) {
-      setHasUserInteracted(true);
-      if (audioRef.current) {
-        audioRef.current.play().catch(() => {});
-      }
     }
   };
 
@@ -83,7 +49,6 @@ export default function Home() {
         alignItems: 'center',
         justifyContent: 'center',
       }}
-      onClick={handleUserInteraction}
     >
       <div 
         style={{ 
@@ -176,6 +141,7 @@ export default function Home() {
       <audio
         ref={audioRef}
         src="/traeume.mp3"
+        autoPlay
         loop
         preload="auto"
       />
