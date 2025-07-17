@@ -3,11 +3,24 @@ import React, { useEffect, useRef } from 'react';
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     const handleVisibility = () => {
-      if (document.visibilityState === 'visible' && videoRef.current) {
-        videoRef.current.play().catch(() => {});
+      if (document.visibilityState === 'visible') {
+        if (videoRef.current) {
+          videoRef.current.play().catch(() => {});
+        }
+        if (audioRef.current) {
+          audioRef.current.play().catch(() => {});
+        }
+      } else {
+        if (videoRef.current) {
+          videoRef.current.pause();
+        }
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
       }
     };
     document.addEventListener('visibilitychange', handleVisibility);
@@ -33,6 +46,13 @@ export default function Home() {
         muted
         playsInline
         className="superrustico-video"
+      />
+      <audio
+        ref={audioRef}
+        src="/traeume.mp3"
+        autoPlay
+        loop
+        preload="auto"
       />
     </div>
   );

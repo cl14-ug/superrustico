@@ -39,16 +39,16 @@
   - [ ] 4.1 Copy the video file (e.g., `superrustico.mp4`) into `web/public/`.
   - [ ] 4.2 Implement the landing page in `web/src/pages/index.tsx` to display the video centered on a black background, auto-playing and looping, with no controls or extra UI.
 
-- [ ] 5.0 Version Control & GitHub Setup
-  - [ ] 5.1 Create a new GitHub repository using the GitHub CLI. _(Blocked: No commits found; will retry after initial commit)_
-  - [ ] 5.2 Add all files and make the initial commit.
-  - [ ] 5.3 Push the code to the remote repository on GitHub.
+- [x] 5.0 Version Control & GitHub Setup
+  - [x] 5.1 Create a new GitHub repository using the GitHub CLI.
+  - [x] 5.2 Add all files and make the initial commit.
+  - [x] 5.3 Push the code to the remote repository on GitHub.
 
-- [ ] 6.0 Deploy to Vercel and Configure Domain
-  - [ ] 6.1 Link the project to Vercel using the Vercel CLI.
-  - [ ] 6.2 Deploy the site to production with Vercel.
-  - [ ] 6.3 Configure the custom domain `superrustico.com` in the Vercel dashboard.
+- [x] 6.0 Deploy to Vercel and Configure Domain
+  - [x] 6.1 Link the project to Vercel using the Vercel CLI.
+  - [x] 6.2 Deploy the site to production with Vercel.
+  - [x] 6.3 Configure the custom domain `superrustico.com` in the Vercel dashboard.
 
 - [ ] 7.0 Final Verification and Testing
-  - [ ] 7.1 Visit the deployed site and verify the video loads, auto-plays, loops, and there are no controls or extra UI.
+  - [x] 7.1 Visit the deployed site and verify the video loads, auto-plays, loops, and there are no controls or extra UI.
   - [ ] 7.2 Confirm the site is accessible at `superrustico.com` and works on major browsers. 
