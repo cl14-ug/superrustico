@@ -50,15 +50,78 @@ export default function Home() {
         justifyContent: 'center',
       }}
     >
-      <video
-        ref={videoRef}
-        src="/superrustico.MP4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="superrustico-video"
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <video
+          ref={videoRef}
+          src="/superrustico.MP4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="superrustico-video"
+        />
+        
+        <div style={{ marginTop: '20px' }}>
+          <span
+            style={{
+              color: 'white',
+              fontSize: '18px',
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+              fontWeight: '500',
+              cursor: 'pointer',
+              textDecoration: activeLanguage === 'DE' ? 'underline' : 'none',
+            }}
+            onMouseEnter={(e) => {
+              if (activeLanguage !== 'DE') {
+                e.currentTarget.style.textDecoration = 'underline';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (activeLanguage !== 'DE') {
+                e.currentTarget.style.textDecoration = 'none';
+              }
+            }}
+            onClick={() => handleLanguageChange('DE')}
+          >
+            DE
+          </span>
+          <span
+            style={{
+              color: 'white',
+              fontSize: '18px',
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+              fontWeight: '500',
+              margin: '0 10px',
+            }}
+          >
+            |
+          </span>
+          <span
+            style={{
+              color: 'white',
+              fontSize: '18px',
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+              fontWeight: '500',
+              cursor: 'pointer',
+              textDecoration: activeLanguage === 'ITA' ? 'underline' : 'none',
+            }}
+            onMouseEnter={(e) => {
+              if (activeLanguage !== 'ITA') {
+                e.currentTarget.style.textDecoration = 'underline';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (activeLanguage !== 'ITA') {
+                e.currentTarget.style.textDecoration = 'none';
+              }
+            }}
+            onClick={() => handleLanguageChange('ITA')}
+          >
+            ITA
+          </span>
+        </div>
+      </div>
+      
       <audio
         ref={audioRef}
         src="/traeume.mp3"
@@ -66,57 +129,6 @@ export default function Home() {
         loop
         preload="auto"
       />
-      
-      <div style={{ marginTop: '20px' }}>
-        <span
-          style={{
-            color: 'white',
-            fontSize: '18px',
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-            fontWeight: '500',
-            cursor: 'pointer',
-            textDecoration: activeLanguage === 'DE' ? 'underline' : 'none',
-            marginRight: '10px',
-          }}
-          onMouseEnter={(e) => {
-            if (activeLanguage !== 'DE') {
-              e.currentTarget.style.textDecoration = 'underline';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (activeLanguage !== 'DE') {
-              e.currentTarget.style.textDecoration = 'none';
-            }
-          }}
-          onClick={() => handleLanguageChange('DE')}
-        >
-          DE
-        </span>
-        <span
-          style={{
-            color: 'white',
-            fontSize: '18px',
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-            fontWeight: '500',
-            cursor: 'pointer',
-            textDecoration: activeLanguage === 'ITA' ? 'underline' : 'none',
-            marginLeft: '10px',
-          }}
-          onMouseEnter={(e) => {
-            if (activeLanguage !== 'ITA') {
-              e.currentTarget.style.textDecoration = 'underline';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (activeLanguage !== 'ITA') {
-              e.currentTarget.style.textDecoration = 'none';
-            }
-          }}
-          onClick={() => handleLanguageChange('ITA')}
-        >
-          ITA
-        </span>
-      </div>
     </div>
   );
 }
